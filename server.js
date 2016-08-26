@@ -17,16 +17,17 @@ app.get('/todos', function (req, res) {
 	res.json(todos);
 });
 
-app.get('/todos/:id', function (req, res) {
-	var todoId = parseInt(req.params.id, 10);
-	var matchedTodo = _.findWhere(todos, {id: todoId});
+// get one record
+// app.get('/todos/:id', function (req, res) {
+// 	var todoId = parseInt(req.params.id, 10);
+// 	var matchedTodo = _.findWhere(todos, {id: todoId});
 
-	if (matchedTodo) {
-		res.json(matchedTodo);
-	} else {
-		res.status(404).send();
-	}
-});
+// 	if (matchedTodo) {
+// 		res.json(matchedTodo);
+// 	} else {
+// 		res.status(404).send();
+// 	}
+// });
 
 app.post('/todos', function (req, res) {
 	var body = _.pick(req.body, 'description', 'completed');
@@ -44,6 +45,19 @@ app.post('/todos', function (req, res) {
 
 	res.json(body);
 })
+
+// delete one record
+app.delete('/todos/:id', function (req, res) {
+	var todoId = parseInt(req.params.id, 10);
+	var matchedTodo = _.findWhere(todos, {id: todoId});
+
+	if (matchedTodo) {
+		todos = _.without(todos, matchedTodo);
+		res.json(matchedTodo);
+	} else {
+		res.status(404).json({"error": "No todo with that id found."});
+	}
+});
 
 
 
