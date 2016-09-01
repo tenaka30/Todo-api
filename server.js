@@ -23,6 +23,11 @@ app.get('/todos', function (req, res) {
 		filteredTodos = _.where(filteredTodos, {completed: false});
 	}
 
+	if (queryParams.hasOwnProperty('q') && queryParams.q.length > 0) {
+		filteredTodos = _.filter(filteredTodos, function (mytodo) {
+			return mytodo.description.toLowerCase().indexOf(queryParams.q.toLowerCase()) > -1;
+		})
+	};
 	res.json(filteredTodos);
 });
 
@@ -50,7 +55,7 @@ app.post('/todos', function (req, res) {
 
 	todos.push(body);
 
-	console.log(body);
+	// console.log(body);
 
 	res.json(body);
 })
